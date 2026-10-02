@@ -129,5 +129,4 @@ export const reels = [
 ];
 
 export const instagramUrl = "https://www.instagram.com/sato_ramenbowl/";
-// TODO: SATO's LinkedIn page URL (not found publicly yet).
-export const linkedinUrl = "https://www.linkedin.com/";
+export const linkedinUrl = "https://www.linkedin.com/company/sato-ramen-bowl/";
