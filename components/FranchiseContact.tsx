@@ -10,12 +10,19 @@ type Enquiry = { name: string; phone: string; city: string };
  */
 export default function FranchiseContact() {
   const [sent, setSent] = useState<Enquiry | null>(null);
+  const [failed, setFailed] = useState(false);
 
-  const submit = (e: FormEvent<HTMLFormElement>) => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget)) as Enquiry;
-    // TODO: send `data` to the backend once one exists. Frontend only for now.
-    setSent(data);
+    setFailed(false);
+    const res = await fetch("/api/enquiries", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).catch(() => null);
+    if (res?.ok) setSent(data);
+    else setFailed(true);
   };
 
   return (
@@ -37,6 +44,7 @@ export default function FranchiseContact() {
         <button type="submit" className="pill">
           Submit
         </button>
+        {failed && <p role="alert">Couldn&apos;t send your enquiry. Please try again.</p>}
       </form>
 
       {sent && (
