@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { navLinks } from "@/lib/content";
 import SocialIcons from "./SocialIcons";
 
@@ -41,24 +41,23 @@ export default function Nav() {
           <span />
         </button>
       </nav>
-      {open && (
-        <div className="mobile-menu">
+      {/* Always rendered so it can ease in and out; inert while closed. */}
+      <div className={`mobile-menu${open ? " open" : ""}`} inert={!open} aria-hidden={!open}>
           <div className="mobile-menu-links">
             {navLinks.map((l, i) => (
-              <a key={l.href} href={l.href} onClick={close}>
+              <a key={l.href} href={l.href} onClick={close} style={{ "--i": i } as CSSProperties}>
                 {l.label}
                 <span>0{i + 1}</span>
               </a>
             ))}
           </div>
-          <div className="mobile-menu-foot">
+          <div className="mobile-menu-foot" style={{ "--i": navLinks.length } as CSSProperties}>
             <SocialIcons />
             <a href="#location" className="pill" onClick={close}>
               Find your SATO
             </a>
           </div>
-        </div>
-      )}
+      </div>
     </>
   );
 }
